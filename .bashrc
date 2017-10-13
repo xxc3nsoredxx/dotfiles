@@ -20,7 +20,7 @@ complete -cf sudo
 alias poweroff="sudo poweroff"
 alias reboot="sudo reboot"
 alias ll="ls -alF"
-alias slack_followersofenarc="irssi -c followersofenarc.irc.slack.com -p 6667 -n snek_case -w followersofenarc.W1ScTgarKxR2FGCVpVKk"
+alias slack_followersofenarc="irssi -c followersofenarc.irc.slack.com -p 6667 -n snek_case -w $(cat $HOME/foe_irc_pass)"
 alias chvt="sudo chvt"
 alias hd="hexdump -C"
 
