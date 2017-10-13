@@ -50,7 +50,7 @@ nnoremap <Space> i_<Esc>r
 inoremap jj <Esc>:w<CR>
 inoremap kk <Esc>:w<CR>
 
-"hitting escape in normal mode clears search highlights
+"hitting F4 in normal mode clears search highlights
 nnoremap <silent> <F4> :set hlsearch! hlsearch?<CR><Bar>:echo<CR>
 
 "get the word count of the file
