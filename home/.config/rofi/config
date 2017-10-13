@@ -1,0 +1,9 @@
+rofi.location: 5
+rofi.font: mononoki 11
+rofi.color-enabled: true
+! background, border, separator
+rofi.color-window: #000000, #00FF00, #000000
+! background, foreground, alt background, highlight background, highlight foreground
+rofi.color-normal: #000000, #B2B2B2, #000000, #000000, #00FF00
+rofi.color-active: #4D4D4D, #268BD2, #4D4D4D, #4D4D4D, #00FF00
+rofi.color-urgent: #CDCDCD, #FF0000, #CDCDCD, #FF0000, #000000
