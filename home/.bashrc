@@ -16,8 +16,7 @@ fi
 
 
 # Put your fun stuff here.
-export PROMPT_DIRTRIM=4
-export PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w \[\033[01;32m\]λ\[\033[00m\] '
+export PS1='\[\033[01;34m\][ \w ]\n\[\033[01;32m\]\u@\h\[\033[01;34m\] λ\[\033[00m\] '
 
 complete -cf sudo
 alias poweroff="sudo poweroff"
