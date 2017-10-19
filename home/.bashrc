@@ -16,6 +16,9 @@ fi
 
 
 # Put your fun stuff here.
+export PROMPT_DIRTRIM=4
+export PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w \[\033[01;32m\]λ\[\033[00m\] '
+
 complete -cf sudo
 alias poweroff="sudo poweroff"
 alias reboot="sudo reboot"
@@ -26,6 +29,7 @@ alias hd="hexdump -C"
 
 # Aliases to connect to networks
 alias connect_abraham_linksys="wpa_cli select_network 2"
+alias connect_amandas_wifi="wpa_cli select_network 6"
 alias connect_comet_net="wpa_cli select_network 3"
 alias connect_cookie_butch="wpa_cli select_network 4"
 alias connect_home="wpa_cli select_network 0"

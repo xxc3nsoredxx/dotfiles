@@ -162,13 +162,14 @@ client.placeholder      #0000FF #000000 #0000FF #0000FF   #0000FF
 client.background #000000
 
 # System control
-set $mode_system system: (c)reload config (e)exit i3 (l)lock (p)poweroff (r)restart i3
+set $mode_system system: (c)reload config (e)exit i3 (l)lock (p)poweroff (r)restart i3 (s)screenshot
 mode "$mode_system" {
     bindsym c reload, mode "default"
     bindsym e exit
     bindsym l exec --no-startup-id sudo chvt 1 && physlock && sudo chvt 7, mode "default"
     bindsym p exec sudo poweroff
     bindsym r restart, mode "default"
+    bindsym s exec scrot -q 100 -d 1 '%Y-%m-%d_%H-%M-%S_$wx$h.png', mode "default"
 
     bindsym Return mode "default"
     bindsym Escape mode "default"
