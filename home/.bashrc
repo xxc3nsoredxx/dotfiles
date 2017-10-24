@@ -15,7 +15,10 @@ if [[ $- != *i* ]] ; then
 fi
 
 
-# Put your fun stuff here.
+# Set vi mode
+set -o vi
+
+# Prompt
 export PS1='\[\033[01;34m\][ \w ]\n\[\033[01;32m\]\u@\h\[\033[01;34m\] λ\[\033[00m\] '
 
 complete -cf sudo
@@ -31,6 +34,7 @@ alias connect_abraham_linksys="wpa_cli select_network 2"
 alias connect_amandas_wifi="wpa_cli select_network 6"
 alias connect_comet_net="wpa_cli select_network 3"
 alias connect_cookie_butch="wpa_cli select_network 4"
+alias connect_google="wpa_cli select_network 7"
 alias connect_home="wpa_cli select_network 0"
 
 function ldir {
@@ -42,12 +46,10 @@ function lg {
 }
 
 # github helpers
-
 if [ -f $HOME/.git_aliases ]; then
     . $HOME/.git_aliases
 fi
 
 # setup Github ssh-connection
-
 eval $(ssh-agent -s) > /dev/null 2>&1
 ssh-add $HOME/.ssh/github > /dev/null 2>&1

@@ -1,0 +1,10 @@
+alias git_init='bash ~/github_helper_scripts/git_init.sh'
+alias gnu_gpl='cp ~/github_helper_scripts/gnu_gpl LICENSE'
+alias git_update='git pull && git add . && git commit && git push'
+alias gitignore_c='cp ~/github_helper_scripts/c.gitignore .gitignore'
+alias git_sync='git fetch upstream && git checkout master && git merge upstream/master && git push'
+
+# pass in the name of the branch
+function git_branch_new () {
+    git checkout -b $1
+}
