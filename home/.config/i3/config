@@ -145,6 +145,14 @@ bar {
         position top
 
         status_command i3status | $HOME/.config/i3status/wrapper.py
+        
+        colors {
+            # class             border  bg      text
+            focused_workspace   #00FF00 #000000 #FFFFFF
+            active_workspace    #000000 #000000 #00FF00
+            inactive_workspace  #000000 #000000 #FFFFFF
+            urgent_workspace    #FF0000 #FF0000 #000000
+        }
 }
 
 new_window normal 1
@@ -157,9 +165,9 @@ for_window [class="(?i)urxvt"] border pixel 1
 client.focused          #00FF00 #000000 #00FF00 #00FF00   #00FF00
 client.focused_inactive #000000 #000000 #00FF00 #000000   #000000
 client.unfocused        #000000 #000000 #00FF00 #000000   #000000
-client.urgent           #00FF00 #FF0000 #000000 #FF0000   #FF0000
+client.urgent           #FF0000 #FF0000 #000000 #FF0000   #FF0000
 client.placeholder      #0000FF #000000 #0000FF #0000FF   #0000FF
-client.background #000000
+client.background       #00000
 
 # System control
 set $mode_system system: (c)reload config (e)exit i3 (l)lock (p)poweroff (r)restart i3 (s)screenshot
