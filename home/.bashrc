@@ -42,7 +42,11 @@ function ldir {
 }
 
 function lg {
-    ls -alF $1 | grep $2
+    if [ $# -eq 2 ]; then
+        ls -alF $1 | grep $2
+    else
+        ls -alF | grep $1
+    fi
 }
 
 # github helpers
