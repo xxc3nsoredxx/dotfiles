@@ -34,7 +34,7 @@ alias connect_abraham_linksys="wpa_cli select_network 2"
 alias connect_amandas_wifi="wpa_cli select_network 6"
 alias connect_comet_net="wpa_cli select_network 3"
 alias connect_cookie_butch="wpa_cli select_network 4"
-alias connect_google="wpa_cli select_network 7"
+alias connect_cosby="wpa_cli select_network 7"
 alias connect_home="wpa_cli select_network 0"
 
 function ldir {
