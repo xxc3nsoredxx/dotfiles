@@ -19,7 +19,7 @@ fi
 set -o vi
 
 # Prompt
-export PS1='\[\033[01;34m\][ \w ]\n\[\033[01;32m\]\u@\h\[\033[01;34m\] λ\[\033[00m\] '
+export PS1='\[\033]0;[ \w ]\033\\\]\[\033[01;34m\][ \w ]\n\[\033[01;32m\]\u@\h\[\033[01;34m\] λ\[\033[00m\] '
 
 complete -cf sudo
 alias poweroff="sudo poweroff"
@@ -28,6 +28,11 @@ alias ll="ls -alF"
 alias slack_followersofenarc="irssi -c followersofenarc.irc.slack.com -p 6667 -n snek_case -w $(cat $HOME/foe_irc_pass)"
 alias chvt="sudo chvt"
 alias hd="hexdump -C"
+alias tor_links="links -socks-proxy tor@127.0.0.1:9100"
+alias clip_prim="xclip -o -selection clipboard | xclip -i -selection primary"
+alias prim_clip="xclip -o -selection primary | xclip -i -selection clipboard"
+alias df="df --total"
+alias objdump_intel="objdump -M intel -D"
 
 # Aliases to connect to networks
 alias connect_abraham_linksys="wpa_cli select_network 2"
