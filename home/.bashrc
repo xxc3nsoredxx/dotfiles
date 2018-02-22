@@ -31,6 +31,7 @@ alias hd="hexdump -C"
 alias tor_links="links -socks-proxy tor@127.0.0.1:9100"
 alias clip_prim="xclip -o -selection clipboard | xclip -i -selection primary"
 alias prim_clip="xclip -o -selection primary | xclip -i -selection clipboard"
+alias clip_file="xclip -i -selection clipboard"
 alias df="df --total"
 alias objdump_intel="objdump -M intel -D"
 
@@ -40,7 +41,10 @@ alias connect_amandas_wifi="wpa_cli select_network 6"
 alias connect_comet_net="wpa_cli select_network 3"
 alias connect_cookie_butch="wpa_cli select_network 4"
 alias connect_cosby="wpa_cli select_network 7"
+alias connect_fellas="wpa_cli select_network 12"
 alias connect_home="wpa_cli select_network 0"
+alias connect_starbucks="wpa_cli select_network 13"
+alias connect_rose="wpa_cli select_network 11"
 
 function ldir {
     ls -alF $1 | grep ^d
@@ -48,9 +52,9 @@ function ldir {
 
 function lg {
     if [ $# -eq 2 ]; then
-        ls -alF $1 | grep $2
+        ls -alF $1 | grep -E $2
     else
-        ls -alF | grep $1
+        ls -alF | grep -E $1
     fi
 }
 
@@ -62,3 +66,5 @@ fi
 # setup Github ssh-connection
 eval $(ssh-agent -s) > /dev/null 2>&1
 ssh-add $HOME/.ssh/github > /dev/null 2>&1
+
+ssh-add $HOME/.ssh/psc > /dev/null 2>&1

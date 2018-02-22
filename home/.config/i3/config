@@ -174,7 +174,7 @@ set $mode_system system: (c)reload config (e)exit i3 (l)lock (p)poweroff (r)rest
 mode "$mode_system" {
     bindsym c reload, mode "default"
     bindsym e exit
-    bindsym l exec --no-startup-id sudo chvt 1 && physlock && sudo chvt 7, mode "default"
+    bindsym l exec --no-startup-id sudo chvt 1 && physlock -ms && sudo chvt 7, mode "default"
     bindsym p exec sudo poweroff
     bindsym r restart, mode "default"
     bindsym s mode "default", exec scrot -q 100 '%Y-%m-%d_%H-%M-%S_$wx$h.png' -e 'mv $f ~/screenshots/'
