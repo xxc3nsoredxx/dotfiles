@@ -3,7 +3,10 @@
 #
 # Should you change your keyboard layout some time, delete
 # this file and re-run i3-config-wizard(1).
-#
+
+
+# xrandr to deal with other monitor
+exec --no-startup-id "xrandr --output HDMI1 --auto --left-of eDP1"
 
 # i3 config file (v4)
 #

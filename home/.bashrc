@@ -14,10 +14,6 @@ if [[ $- != *i* ]] ; then
 	return
 fi
 
-
-# Set vi mode
-set -o vi
-
 # Prompt
 export PS1='\[\033]0;[ \w ]\033\\\]\[\033[01;34m\][ \w ]\n\[\033[01;32m\]\u@\h\[\033[01;34m\] λ\[\033[00m\] '
 
@@ -42,6 +38,7 @@ alias connect_comet_net="wpa_cli select_network 3"
 alias connect_cookie_butch="wpa_cli select_network 4"
 alias connect_cosby="wpa_cli select_network 7"
 alias connect_fellas="wpa_cli select_network 12"
+alias connect_gwoplock="wpa_cli select_network 14"
 alias connect_home="wpa_cli select_network 0"
 alias connect_starbucks="wpa_cli select_network 13"
 alias connect_rose="wpa_cli select_network 11"
