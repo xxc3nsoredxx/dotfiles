@@ -40,8 +40,9 @@ alias connect_cosby="wpa_cli select_network 7"
 alias connect_fellas="wpa_cli select_network 12"
 alias connect_gwoplock="wpa_cli select_network 14"
 alias connect_home="wpa_cli select_network 0"
-alias connect_starbucks="wpa_cli select_network 13"
+alias connect_lamb="wpa_cli select_network 19"
 alias connect_rose="wpa_cli select_network 11"
+alias connect_starbucks="wpa_cli select_network 13"
 
 function ldir {
     ls -alF $1 | grep ^d
@@ -49,9 +50,19 @@ function ldir {
 
 function lg {
     if [ $# -eq 2 ]; then
-        ls -alF $1 | grep -E $2
+        ls -alF $2 | grep -E $1
     else
         ls -alF | grep -E $1
+    fi
+}
+
+function wgetpaste_binary {
+    if [ $# -eq 1 ]; then
+        xz -9 -e -c "$1" | base64 > "$1.xz.base64"
+        echo "$1.xz.base64 can be found at:"
+        wgetpaste -u $(wgetpaste -s bpaste -r "$1.xz.base64" 2>&1 | awk 'BEGIN{FS=" "} {print $8}') 2>&1 | awk 'BEGIN{FS=" "} {print $7}'
+    else
+        echo "Usage: wgetpaste_binary file"
     fi
 }
 
