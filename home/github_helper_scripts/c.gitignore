@@ -1,8 +1,15 @@
-/bin
+# Ignore all (so executables with no extension are ignored)
+*
 
+# Include files with extensions
+!*.*
+
+# Include directories
+!*/
+
+# Begin actual ignores
 *.o
-*.exe
 
 *.swp
-*.swo
 *.tmp
+*.vim
