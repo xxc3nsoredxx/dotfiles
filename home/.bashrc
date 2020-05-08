@@ -17,6 +17,7 @@ fi
 # Prompt
 export PS1='\[\e[1;34m\][ \w ]\n\[\e[1;32m\]\u@\h \[\e[1;34m\]λ\[\e[0m\] '
 
+# TODO: make it suggest similar commands
 function command_not_found_handle {
     echo "Command not found: $1"
 }
@@ -59,7 +60,6 @@ alias poweroff="sudo poweroff"
 alias reboot="sudo reboot"
 alias lh="ls -alFh"
 alias ll="ls -alF"
-alias slack_followersofenarc="irssi -c followersofenarc.irc.slack.com -p 6667 -n snek_case -w $(cat $HOME/foe_irc_pass)"
 alias chvt="sudo chvt"
 alias hd="hexdump -C"
 alias tor_links="links -socks-proxy tor@127.0.0.1:9100"
