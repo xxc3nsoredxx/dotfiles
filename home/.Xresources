@@ -1,0 +1,6 @@
+URxvt.scrollBar: false
+URxvt*font: xft:Mononoki:size=10
+
+! color scheme
+URxvt*background: #000000
+URxvt*foreground: #B2B2B2
