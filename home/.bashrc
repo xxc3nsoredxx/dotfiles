@@ -23,7 +23,7 @@ function command_not_found_handle {
 }
 
 function man_complete {
-    cmd="whatis -w $2*"
+    cmd="whatis -w ${2}*"
 
     # Search section if given
     if [ $3 != $1 ]; then
@@ -102,9 +102,9 @@ function ldir {
 
 function lg {
     if [ $# -eq 2 ]; then
-        ls -alF $1 | grep -E $2
+        ls -alF $1 | grep -iE $2
     else
-        ls -alF | grep -E $1
+        ls -alF | grep -iE $1
     fi
 }
 
