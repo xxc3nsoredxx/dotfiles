@@ -11,3 +11,4 @@ set print-completions-horizontally on
 set show-mode-in-prompt on
 set vi-cmd-mode-string \1\033[01;31m\2(!)\1\033[00m\2
 set vi-ins-mode-string ""
+set visible-stats on

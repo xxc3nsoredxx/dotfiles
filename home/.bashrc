@@ -14,8 +14,10 @@ if [[ $- != *i* ]] ; then
 	return
 fi
 
-# Prompt
-export PS1='\[\e[1;34m\][ \w ]\n\[\e[1;32m\]\u@\h \[\e[1;34m\]λ\[\e[0m\] '
+# Prompt for non-root user
+if [ $(id -u) -ne 0 ]; then
+    export PS1='\[\e[1;34m\][ \w ]\n\[\e[1;32m\]\u@\h \[\e[1;34m\]λ\[\e[0m\] '
+fi
 
 # TODO: make it suggest similar commands
 function command_not_found_handle {
@@ -52,9 +54,13 @@ complete -cf sudo
 complete -F man_complete man
 complete -A helptopic help
 
+set -o hashall
+
+shopt -s autocd
 shopt -s cdspell
 shopt -s direxpand
 shopt -s dirspell
+shopt -s no_empty_cmd_completion
 
 alias poweroff="sudo poweroff"
 alias reboot="sudo reboot"
@@ -96,6 +102,21 @@ alias reconnect="wpa_cli reconnect"
 # SSH aliases
 alias cslinux="ssh avp150830@cslinux.utdallas.edu"
 
+# Portage stuff
+alias emerge_sync="emerge --sync"
+alias emerge_update_use="emerge --update --deep --with-bdeps=y --changed-use @world"
+alias emerge_deselect="emerge --deselect"
+alias emerge_depclean="emerge --depclean"
+function emerge_update {
+    local EMERGE_CMD="emerge --update --deep --with-bdeps=y"
+
+    if [ $# -eq 1 ]; then
+        $EMERGE_CMD $1
+    else
+        $EMERGE_CMD @world
+    fi
+}
+
 function ldir {
     ls -alF $1 | grep ^d
 }
@@ -134,14 +155,19 @@ function pd {
     fi
 }
 
-# github helpers
+# github helpers for non-root user
 if [ -f $HOME/.git_aliases ]; then
     . $HOME/.git_aliases
 fi
 
-# setup Github ssh-connection
-eval $(ssh-agent -s) > /dev/null 2>&1
-ssh-add $HOME/.ssh/github > /dev/null 2>&1
+# setup Github ssh-connection for non-root user
+if [ $(id -u) -ne 0 ]; then
+    eval $(ssh-agent -s) > /dev/null 2>&1
+    ssh-add $HOME/.ssh/github > /dev/null 2>&1
+    ssh-add $HOME/.ssh/distcc-debian10 > /dev/null 2>&1
+fi
 
-ssh-add $HOME/.ssh/psc > /dev/null 2>&1
-ssh-add $HOME/.ssh/oskari_utd2 > /dev/null 2>&1
+if [ $(id -u) -ne 0 ]; then
+    ssh-add $HOME/.ssh/psc > /dev/null 2>&1
+    ssh-add $HOME/.ssh/oskari_utd2 > /dev/null 2>&1
+fi
