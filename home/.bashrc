@@ -99,14 +99,14 @@ alias connect_tendies="wpa_cli select_network 27"
 alias disconnect="wpa_cli disconnect"
 alias reconnect="wpa_cli reconnect"
 
-# SSH aliases
-alias cslinux="ssh avp150830@cslinux.utdallas.edu"
-
 # Portage stuff
-alias emerge_sync="emerge --sync"
-alias emerge_update_use="emerge --update --deep --with-bdeps=y --changed-use @world"
+alias emerge_change_use="emerge --deep --changed-use @world"
 alias emerge_deselect="emerge --deselect"
 alias emerge_depclean="emerge --depclean"
+alias emerge_portage_update="emerge --oneshot sys-apps/portage"
+alias emerge_predict="emerge --update --deep --with-bdeps=y --pretend @world | genlop -p"
+alias emerge_sync="emerge --sync"
+alias emerge_watch="watch -cn 0.5 genlop -ci"
 function emerge_update {
     local EMERGE_CMD="emerge --update --deep --with-bdeps=y"
 
@@ -165,9 +165,4 @@ if [ $(id -u) -ne 0 ]; then
     eval $(ssh-agent -s) > /dev/null 2>&1
     ssh-add $HOME/.ssh/github > /dev/null 2>&1
     ssh-add $HOME/.ssh/distcc-debian10 > /dev/null 2>&1
-fi
-
-if [ $(id -u) -ne 0 ]; then
-    ssh-add $HOME/.ssh/psc > /dev/null 2>&1
-    ssh-add $HOME/.ssh/oskari_utd2 > /dev/null 2>&1
 fi
