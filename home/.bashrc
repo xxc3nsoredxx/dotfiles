@@ -73,8 +73,9 @@ alias clip_prim="xclip -o -selection clipboard | xclip -i -selection primary"
 alias prim_clip="xclip -o -selection primary | xclip -i -selection clipboard"
 alias clip_file="xclip -i -selection clipboard"
 alias df="df --total"
-alias objdump_intel="objdump -M intel -D"
+alias objdump_intel="objdump -M intel -d"
 alias dmesg="dmesg -Hx -f kern,user,daemon,syslog"
+alias kdmesg="dmesg -Hx -f kern -l debug,info,notice,warn,err,crit,alert,emerg"
 alias pv="pv -c -F '%r %T %a %t %p %b %e'"
 
 # Aliases to connect to networks
@@ -116,6 +117,7 @@ function emerge_update {
         $EMERGE_CMD @world
     fi
 }
+alias gen_initramfs="genkernel --btrfs --compress-initramfs --compress-initramfs-type=xz initramfs"
 
 function ldir {
     ls -alF $1 | grep ^d
@@ -163,6 +165,7 @@ fi
 # setup Github ssh-connection for non-root user
 if [ $(id -u) -ne 0 ]; then
     eval $(ssh-agent -s) > /dev/null 2>&1
-    ssh-add $HOME/.ssh/github > /dev/null 2>&1
-    ssh-add $HOME/.ssh/distcc-debian10 > /dev/null 2>&1
+    # Use Host block in ~/.ssh/config
+    # ssh-add $HOME/.ssh/github > /dev/null 2>&1
+    # ssh-add $HOME/.ssh/distcc-debian10 > /dev/null 2>&1
 fi

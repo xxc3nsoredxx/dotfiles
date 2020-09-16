@@ -7,6 +7,10 @@
 # Include directories
 !*/
 
+# Include Makefiles
+!Makefile
+!makefile
+
 # Begin actual ignores
 *.o
 
