@@ -72,7 +72,7 @@ alias tor_links="links -socks-proxy tor@127.0.0.1:9100"
 alias clip_prim="xclip -o -selection clipboard | xclip -i -selection primary"
 alias prim_clip="xclip -o -selection primary | xclip -i -selection clipboard"
 alias clip_file="xclip -i -selection clipboard"
-alias df="df --total"
+alias df="df -h --total"
 alias objdump_intel="objdump -M intel -d"
 alias dmesg="dmesg -Hx -f kern,user,daemon,syslog"
 alias kdmesg="dmesg -Hx -f kern -l debug,info,notice,warn,err,crit,alert,emerg"
@@ -117,7 +117,8 @@ function emerge_update {
         $EMERGE_CMD @world
     fi
 }
-alias gen_initramfs="genkernel --btrfs --compress-initramfs --compress-initramfs-type=xz initramfs"
+alias gen_grub="grub-mkconfig -o /boot/grub/grub.cfg"
+alias gen_initramfs="genkernel --sandbox --btrfs --compress-initramfs --compress-initramfs-type=xz initramfs"
 
 function ldir {
     ls -alF $1 | grep ^d
