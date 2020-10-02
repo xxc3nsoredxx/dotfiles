@@ -32,6 +32,11 @@ function man_complete {
         cmd+=" -s $3"
     fi
 
+    # Skip "nothing appropriate"
+    if [[ $($cmd 2>&1) == *nothing?appropriate* ]]; then
+        return 1
+    fi
+
     # ASCII 63, '?' is when mutiple tabs are pressed to show all completions
     # Print a newline so that the output is under the prompt
     if [ $COMP_TYPE -eq 63 ]; then
@@ -66,6 +71,7 @@ alias poweroff="sudo poweroff"
 alias reboot="sudo reboot"
 alias lh="ls -alFh"
 alias ll="ls -alF"
+alias lz="ls -alFZ"
 alias chvt="sudo chvt"
 alias hd="hexdump -C"
 alias tor_links="links -socks-proxy tor@127.0.0.1:9100"
@@ -102,6 +108,7 @@ alias reconnect="wpa_cli reconnect"
 
 # Portage stuff
 alias emerge_change_use="emerge --deep --changed-use @world"
+alias emerge_new_use="emerge --update --deep --newuse @world"
 alias emerge_deselect="emerge --deselect"
 alias emerge_depclean="emerge --depclean"
 alias emerge_portage_update="emerge --oneshot sys-apps/portage"
