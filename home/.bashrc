@@ -71,7 +71,6 @@ alias poweroff="sudo poweroff"
 alias reboot="sudo reboot"
 alias lh="ls -alFh"
 alias ll="ls -alF"
-alias lz="ls -alFZ"
 alias chvt="sudo chvt"
 alias hd="hexdump -C"
 alias tor_links="links -socks-proxy tor@127.0.0.1:9100"
@@ -79,10 +78,14 @@ alias clip_prim="xclip -o -selection clipboard | xclip -i -selection primary"
 alias prim_clip="xclip -o -selection primary | xclip -i -selection clipboard"
 alias clip_file="xclip -i -selection clipboard"
 alias df="df -h --total"
-alias objdump_intel="objdump -M intel -d"
+alias objdump_intel="objdump --visualize-jumps=extended-color -M intel -d"
 alias dmesg="dmesg -Hx -f kern,user,daemon,syslog"
 alias kdmesg="dmesg -Hx -f kern -l debug,info,notice,warn,err,crit,alert,emerg"
 alias pv="pv -c -F '%r %T %a %t %p %b %e'"
+
+alias run_arm="qemu-arm -L /usr/armv6j-hardfloat-linux-gnueabi/"
+alias gdb_arm="armv6j-hardfloat-linux-gnueabi-gdb --nh -ix ~/.gdbinit_arm"
+alias objdump_arm="armv6j-hardfloat-linux-gnueabi-objdump --visualize-jumps=extended-color -d"
 
 # Aliases to connect to networks
 alias connect_abraham_linksys="wpa_cli select_network 2"
@@ -105,16 +108,25 @@ alias connect_starbucks="wpa_cli select_network 13"
 alias connect_tendies="wpa_cli select_network 27"
 alias disconnect="wpa_cli disconnect"
 alias reconnect="wpa_cli reconnect"
+function connection_test {
+    if (ping -c 1 1.1.1.1 &>/dev/null); then
+        echo "Connected"
+        return 0
+    else
+        echo "Not connected"
+        return 1
+    fi
+}
 
 # Portage stuff
-alias emerge_change_use="emerge --deep --changed-use @world"
+alias emerge_change_use="emerge --update --deep --changed-use @world"
 alias emerge_new_use="emerge --update --deep --newuse @world"
 alias emerge_deselect="emerge --deselect"
 alias emerge_depclean="emerge --depclean"
 alias emerge_portage_update="emerge --oneshot sys-apps/portage"
 alias emerge_predict="emerge --update --deep --with-bdeps=y --pretend @world | genlop -p"
 alias emerge_sync="emerge --sync"
-alias emerge_watch="watch -cn 0.5 genlop -ci"
+alias emerge_watch="watch -cn 1 genlop -ci"
 function emerge_update {
     local EMERGE_CMD="emerge --update --deep --with-bdeps=y"
 
@@ -130,6 +142,10 @@ alias gen_initramfs="genkernel --sandbox --btrfs --compress-initramfs --compress
 function ldir {
     ls -alF $1 | grep ^d
 }
+
+# SELinux stuff
+alias lz="ls -alFZ"
+alias sysadm="newrole -r sysadm_r"
 
 function lg {
     if [ $# -eq 2 ]; then
