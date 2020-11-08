@@ -140,7 +140,7 @@ alias gen_grub="grub-mkconfig -o /boot/grub/grub.cfg"
 alias gen_initramfs="genkernel --sandbox --btrfs --compress-initramfs --compress-initramfs-type=xz initramfs"
 
 function ldir {
-    ls -alF $1 | grep ^d
+    find $1 -maxdepth 1 -type d -exec ls --color -adlF \{\} \+
 }
 
 # SELinux stuff
@@ -149,9 +149,9 @@ alias sysadm="newrole -r sysadm_r"
 
 function lg {
     if [ $# -eq 2 ]; then
-        ls -alF $1 | grep -iE $2
+        find $1 -regextype egrep -maxdepth 1 -iregex ".*$2.*" -exec ls --color -adlF \{\} \+
     else
-        ls -alF | grep -iE $1
+        find -regextype egrep -maxdepth 1 -iregex ".*$1.*" -exec ls --color -adlF \{\} \+
     fi
 }
 
