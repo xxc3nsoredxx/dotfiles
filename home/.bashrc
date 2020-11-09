@@ -19,9 +19,57 @@ if [ $(id -u) -ne 0 ]; then
     export PS1='\[\e[1;34m\][ \w ]\n\[\e[1;32m\]\u@\h \[\e[1;34m\]λ\[\e[0m\] '
 fi
 
-# TODO: make it suggest similar commands
+# Run whenever a command isn't found
 function command_not_found_handle {
+    declare -a WHAT
+    declare -a HELP
+    declare -a ALIAS
+
+    # PREFIX holds the first half as-is
+    PREFIX=${1:0:$((${#1} / 2))}
+    # SUFFIX has the second half and one shorter, with '?' to build pattern
+    SUFFIX=("${1:${#PREFIX}}" "${1:$((${#PREFIX} + 1))}")
+    SUFFIX=("${SUFFIX[@]//?/?}")
+    # A_SUFF has ? replaced with . for use with `alias | grep`
+    A_SUFF=("${SUFFIX[@]//?/.}")
+
+    # Read the results of `whatis`, `help`, and `alias`
+    readarray WHAT <<< $(whatis -s 1 -w $PREFIX${SUFFIX[0]} $PREFIX${SUFFIX[1]} 2>/dev/null | sort | uniq | grep -v 'builtin')
+    readarray HELP <<< $(help -d $PREFIX${SUFFIX[0]} $PREFIX${SUFFIX[1]} 2>/dev/null | tail -n +3 | sort)
+    readarray ALIAS <<< $(alias | grep -wE "$PREFIX${A_SUFF[0]}=|$PREFIX${A_SUFF[1]}=" 2>/dev/null | sort | uniq)
+
+    # If the first element is fake, nothing was found
+    if [ ${#WHAT[0]} -eq 1 ]; then
+        unset WHAT
+    fi
+    if [ ${#HELP[0]} -eq 1 ]; then
+        unset HELP
+    fi
+    if [ ${#ALIAS[0]} -eq 1 ]; then
+        unset ALIAS
+    fi
+
     echo "Command not found: $1"
+
+    # Only print the ones that have content
+    if [ ${#WHAT[@]} -gt 0 ]; then
+        echo "Tools: "
+        for line in "${WHAT[@]}"; do
+            echo $line
+        done
+    fi
+    if [ ${#HELP[@]} -gt 0 ]; then
+        echo "Builtins:"
+        for line in "${HELP[@]}"; do
+            echo $line
+        done
+    fi
+    if [ ${#ALIAS[@]} -gt 0 ]; then
+        echo "Aliases:"
+        for line in "${ALIAS[@]}"; do
+            echo $line
+        done
+    fi
 }
 
 function man_complete {
@@ -65,6 +113,7 @@ shopt -s autocd
 shopt -s cdspell
 shopt -s direxpand
 shopt -s dirspell
+shopt -s extglob
 shopt -s no_empty_cmd_completion
 
 alias poweroff="sudo poweroff"
