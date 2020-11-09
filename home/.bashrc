@@ -34,8 +34,8 @@ function command_not_found_handle {
     A_SUFF=("${SUFFIX[@]//?/.}")
 
     # Read the results of `whatis`, `help`, and `alias`
-    readarray WHAT <<< $(whatis -s 1 -w $PREFIX${SUFFIX[0]} $PREFIX${SUFFIX[1]} 2>/dev/null | sort | uniq | grep -v 'builtin')
-    readarray HELP <<< $(help -d $PREFIX${SUFFIX[0]} $PREFIX${SUFFIX[1]} 2>/dev/null | tail -n +3 | sort)
+    readarray WHAT <<< $(whatis -s 1 -w "$PREFIX${SUFFIX[0]}" "$PREFIX${SUFFIX[1]}" 2>/dev/null | sort | uniq | grep -v 'builtin')
+    readarray HELP <<< $(help -d "$PREFIX${SUFFIX[0]}" "$PREFIX${SUFFIX[1]}" 2>/dev/null | tail -n +3 | sort)
     readarray ALIAS <<< $(alias | grep -wE "$PREFIX${A_SUFF[0]}=|$PREFIX${A_SUFF[1]}=" 2>/dev/null | sort | uniq)
 
     # If the first element is fake, nothing was found
