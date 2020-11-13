@@ -13,6 +13,9 @@
 
 # Begin actual ignores
 *.o
+*.ko
+*.so
+*.so.*
 
 *.swp
 *.tmp
