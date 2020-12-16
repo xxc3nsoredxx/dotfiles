@@ -19,7 +19,7 @@
 CONTENTS=($(find home -depth -type f -exec realpath --relative-base=home \{\} \+))
 declare -a NOT_INSTALLED
 
-# Respect cutom PS3 prompts
+# Respect custom PS3 prompts
 if [ -e $PS3 ]; then
     PS3="Install: "
 fi
@@ -43,7 +43,6 @@ while [[ -z $QUIT ]]; do
         if [[ $REPLY -eq ${#NOT_INSTALLED[@]} ]]; then
             echo "Install all"
             QUIT=1
-            break
         # Test if "exit" was selected
         elif [[ $REPLY -eq $((${#NOT_INSTALLED[@]} + 1)) ]]; then
             echo "Exit"
