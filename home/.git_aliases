@@ -1,3 +1,4 @@
+#! /bin/bash
 alias git_init='bash ~/github_helper_scripts/git_init.sh'
 alias gnu_gpl='cp ~/github_helper_scripts/gnu_gpl LICENSE'
 alias git_update='git pull && git add . && git commit && git push'
@@ -5,6 +6,46 @@ alias gitignore_c='cp ~/github_helper_scripts/c.gitignore .gitignore'
 alias git_sync='git fetch upstream && git checkout master && git merge upstream/master && git push'
 
 # pass in the name of the branch
-function git_branch_new () {
+function git_branch_new {
     git checkout -b $1
+}
+
+# Insert a GPL blurb into a bash script
+function gpl_blurb_bash {
+    # Where to insert the blurb
+    local CMD
+
+    if [ $# -ne 1 ]; then
+        echo "Usage: $FUNCNAME [script name]"
+        return 1
+    else
+        # Make sure file exists
+        if [[ ! -a $1 ]]; then
+            echo "Cannot open \"$1\""
+            return 1
+        # Make sure file is *.sh
+        elif [[ "$1" != *.sh ]]; then
+            echo "\"$1\" is not a bash script"
+            return 1
+        fi
+        # Insert after the first line
+        sed -ie '1a \
+\
+#   {one line to give the program name and a brief idea of what it does.}\
+#   Copyright (C) {year}  {name of author}\
+#\
+#   This program is free software: you can redistribute it and/or modify\
+#   it under the terms of the GNU General Public License as published by\
+#   the Free Software Foundation, either version 3 of the License, or\
+#   (at your option) any later version.\
+#\
+#   This program is distributed in the hope that it will be useful,\
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of\
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\
+#   GNU General Public License for more details.\
+#\
+#   You should have received a copy of the GNU General Public License\
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.\
+' $1
+    fi
 }
