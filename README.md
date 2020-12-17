@@ -31,6 +31,7 @@ Emulates how my directories are setup.
     |  +- git_init.sh
     |  +- gnu_gpl
     +- .Xresources
+    +- .bash_logout
     +- .bash_profile
     +- .bashrc
     +- .git_aliases
