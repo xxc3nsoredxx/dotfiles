@@ -24,11 +24,11 @@ RUNDIR=$PWD
 CONTENTS=($(find home -depth -type f -exec realpath --relative-base=home \{\} \+))
 declare -a NOT_INSTALLED
 
-# Installs the given file
+# Installs the file given as argument 1
 # Uses hardlinks in case programs test for a file and not a symlink
 # Links enable running `git pull` in the repo root to update installed files
 function install_file {
-    printf  "%-035s <<< %s\n" "$HOME/$i" "$RUNDIR/$i"
+    printf  "%-035s <<< %s\n" "$HOME/$1" "$RUNDIR/$1"
     return
     DIR_PART=$(dirname $1)
     pushd $HOME >/dev/null
@@ -53,7 +53,7 @@ done
 echo "Separate choices by space (' ') to install multiple files at once."
 echo "NOTE: 'all' is mutually exclusive with everything."
 echo "      Other choices take precedence over 'all'."
-while [[ -z $QUIT ]]; do
+while true; do
     # Output choices
     COUNT=1
     for NAME in ${NOT_INSTALLED[@]} all exit; do
@@ -73,6 +73,9 @@ while [[ -z $QUIT ]]; do
     # The array can (and probably will) have holes, need to index using the
     # array of valid indices
     INDICES=(${!NOT_INSTALLED[@]})
+
+    echo "Not installed: ${NOT_INSTALLED[@]}"
+    echo "Indices: ${INDICES[@]}"
 
     # Parse each choice from the input
     for C in ${INPUT[@]}; do
@@ -100,8 +103,8 @@ while [[ -z $QUIT ]]; do
             # Install all the files only if "all" is the only choice
             if [ ${#INPUT[@]} -eq 1 ]; then
                 echo "Installing all..."
-                for f in ${NOT_INSTALLED[@]}; do
-                    install_file $f
+                for FILE in ${NOT_INSTALLED[@]}; do
+                    install_file $FILE
                 done
                 unset NOT_INSTALLED
             else
@@ -111,10 +114,10 @@ while [[ -z $QUIT ]]; do
         # Always the last possible choice so it's safe to exit if given
         elif [[ $CHOICE -eq $(($N_NOT_INSTALLED + 1)) ]]; then
             echo "Exit..."
-            QUIT=1
+            exit
         # Install a single file
         else
-            install_file $FILE
+            install_file ${NOT_INSTALLED[${INDICES[$CHOICE]}]}
             unset NOT_INSTALLED[${INDICES[$CHOICE]}]
         fi
     done
@@ -122,7 +125,6 @@ while [[ -z $QUIT ]]; do
     # Check if no more files left
     if [[ ${#NOT_INSTALLED[@]} -eq 0 ]]; then
         echo "Nothing left to install, exiting..."
-        QUIT=1
+        exit
     fi
-    exit
 done
