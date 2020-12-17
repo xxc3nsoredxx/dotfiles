@@ -16,11 +16,17 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# The root of the dotfiles repo
+# Assumes that the script is run from the root
 RUNDIR=$PWD
+# Populates all the files in the repo
+# Currently only looks under home/ since that's the only existing directory
 CONTENTS=($(find home -depth -type f -exec realpath --relative-base=home \{\} \+))
 declare -a NOT_INSTALLED
 
-# Installs the given file (using hardlinks)
+# Installs the given file
+# Uses hardlinks in case programs test for a file and not a symlink
+# Links enable running `git pull` in the repo root to update installed files
 function install_file {
     printf  "%-035s <<< %s\n" "$HOME/$i" "$RUNDIR/$i"
     return
@@ -34,6 +40,7 @@ function install_file {
 }
 
 # Find the files which are not installed
+# Notifies if existing files differ from the repo files
 for i in ${CONTENTS[@]}; do
     if [[ ! -a $HOME/$i ]]; then
         NOT_INSTALLED[${#NOT_INSTALLED[@]}]=$i
@@ -44,8 +51,8 @@ done
 
 # Installer menu
 echo "Separate choices by space (' ') to install multiple files at once."
-echo "NOTE: 'all' and 'exit' are mutually exclusive with any other choices."
-echo "      Individual choices take precedence over 'all' and 'exit'."
+echo "NOTE: 'all' is mutually exclusive with everything."
+echo "      Other choices take precedence over 'all'."
 while [[ -z $QUIT ]]; do
     # Output choices
     COUNT=1
@@ -54,13 +61,12 @@ while [[ -z $QUIT ]]; do
         COUNT=$(($COUNT + 1))
     done
 
-    # Prompt for input
+    # Read into an array to enable multi-choice
     echo -n "Install: "
     readarray -n 1 INPUT
 
     # Sort and remove duplicate entries
     INPUT=($(echo "${INPUT[@]}" | tr -s ' ' '\n' | sort | uniq))
-
     # These values depend on the state before any files are installed
     # Number of not installed files
     N_NOT_INSTALLED=${#NOT_INSTALLED[@]}
@@ -75,14 +81,14 @@ while [[ -z $QUIT ]]; do
 
         # Non-numeric choice
         if [ "$CHOICE" != "$C" ]; then
-            echo "Invalid choice: '$C' ..."
+            echo "Invalid choice: '$C', ignoring..."
             continue
         # Out of bounds choices
         elif [ $CHOICE -eq 0 ]; then
-            echo "Invalid choice: '$CHOICE' ..."
+            echo "Invalid choice: '$CHOICE', ignoring..."
             continue
         elif [ $CHOICE -gt $(($N_NOT_INSTALLED + 2)) ]; then
-            echo "Invalid choice: '$CHOICE' ..."
+            echo "Invalid choice: '$CHOICE', ignoring..."
             continue
         fi
 
@@ -91,26 +97,22 @@ while [[ -z $QUIT ]]; do
 
         # Test if "all" was selected
         if [[ $CHOICE -eq $N_NOT_INSTALLED ]]; then
-            # Test if "all" is the only choice
+            # Install all the files only if "all" is the only choice
             if [ ${#INPUT[@]} -eq 1 ]; then
-                echo "Installing all ..."
+                echo "Installing all..."
                 for f in ${NOT_INSTALLED[@]}; do
                     install_file $f
                 done
                 unset NOT_INSTALLED
             else
-                echo "Invalid choice in this context: 'all' ..."
+                echo "Invalid choice in this context: 'all', ignoring..."
             fi
         # Test if "exit" was selected
+        # Always the last possible choice so it's safe to exit if given
         elif [[ $CHOICE -eq $(($N_NOT_INSTALLED + 1)) ]]; then
-            # Test if "exit" is the only choice
-            if [ ${#INPUT[@]} -eq 1 ]; then
-                echo "Exit..."
-                QUIT=1
-            else
-                echo "Invalid choice in this context: 'exit' ..."
-            fi
-        # Install
+            echo "Exit..."
+            QUIT=1
+        # Install a single file
         else
             install_file $FILE
             unset NOT_INSTALLED[${INDICES[$CHOICE]}]
@@ -119,7 +121,7 @@ while [[ -z $QUIT ]]; do
 
     # Check if no more files left
     if [[ ${#NOT_INSTALLED[@]} -eq 0 ]]; then
-        echo "Nothing left to install, exit..."
+        echo "Nothing left to install, exiting..."
         QUIT=1
     fi
     exit
