@@ -32,7 +32,6 @@ unset FORCE
 # Links enable running `git pull` in the repo root to update installed files
 function install_file {
     printf  "%-035s <<< %s\n" "$HOME/$1" "$RUNDIR/$1"
-    return
     DIR_PART=$(dirname $1)
     pushd $HOME >/dev/null
         # Create required directories if needed
@@ -73,7 +72,6 @@ if [ $# -ge 1 ]; then
         usage
     fi
 fi
-exit
 
 # Find the files which are not installed
 # Notifies if existing files differ from the repo files (unless -f)
