@@ -1,5 +1,4 @@
 # Dotfiles
-
 Dotfiles and other related configuration files.
 Emulates how my directories are setup.
 
@@ -7,22 +6,35 @@ Emulates how my directories are setup.
 * bash
 * i3
 * i3status
+* readline
 * rofi
+* top
 * vim
+* startx
 
 # Directory overview
 
     home/
     +- .config/
     |  +- i3/
-    |     +- config
+    |  |  +- config
     |  +- i3status/
-    |     +- config
-    |     +- wrapper.py
+    |  |  +- config
+    |  |  +- wrapper.py
     |  +- rofi/
     |     +- config
+    +- github_helper_scripts/
+    |  +- c.gitignore
+    |  +- git_init.sh
+    |  +- gnu_gpl
+    +- .Xresources
+    +- .bash_profile
     +- .bashrc
+    +- .git_aliases
+    +- .inputrc
+    +- .toprc
     +- .vimrc
+    +- .xinitrc
 
 # Install script
 This script provides an interactive way to install the files in this repo.
