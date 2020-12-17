@@ -117,7 +117,7 @@ while true; do
     readarray -n 1 INPUT
 
     # Sort and remove duplicate entries
-    INPUT=($(echo "${INPUT[@]}" | tr -s ' ' '\n' | sort | uniq))
+    INPUT=($(echo "${INPUT[@]}" | tr -s ' ' '\n' | sort -n | uniq))
     # These values depend on the state before any files are installed
     # Number of not installed files
     N_NOT_INSTALLED=${#NOT_INSTALLED[@]}
