@@ -103,7 +103,7 @@ function man_complete {
     done <<< $($cmd)
 }
 
-complete -cf sudo
+# complete -cf sudo
 complete -F man_complete man
 complete -A helptopic help
 
@@ -116,11 +116,11 @@ shopt -s dirspell
 shopt -s extglob
 shopt -s no_empty_cmd_completion
 
-alias poweroff="sudo poweroff"
-alias reboot="sudo reboot"
+alias poweroff="loginctl poweroff"
+alias reboot="loginctl reboot"
 alias lh="ls -alFh"
 alias ll="ls -alF"
-alias chvt="sudo chvt"
+# alias chvt="sudo chvt"
 alias hd="hexdump -C"
 alias tor_links="links -socks-proxy tor@127.0.0.1:9100"
 alias clip_prim="xclip -o -selection clipboard | xclip -i -selection primary"
