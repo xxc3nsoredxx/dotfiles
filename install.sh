@@ -49,6 +49,7 @@ function usage {
     echo "    -f    Force"
     echo "          Overwrites existing files."
     echo "    -h    Display this help"
+    echo "    -l    Display license info"
     exit 1
 }
 
@@ -68,6 +69,9 @@ if [ $# -ge 1 ]; then
         sleep 1
         echo " Now!"
         FORCE=1
+    elif [ "$1" == "-l" ]; then
+        sed -nEe '3,+14 {s/^# *//; p}' $0
+        exit
     else
         usage
     fi

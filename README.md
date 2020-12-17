@@ -52,6 +52,7 @@ Args:
     -f    Force
           Overwrites existing files.
     -h    Display this help
+    -l    Display license info
 ```
 
 Run this script from the root of the repo.
