@@ -74,9 +74,6 @@ while true; do
     # array of valid indices
     INDICES=(${!NOT_INSTALLED[@]})
 
-    echo "Not installed: ${NOT_INSTALLED[@]}"
-    echo "Indices: ${INDICES[@]}"
-
     # Parse each choice from the input
     for C in ${INPUT[@]}; do
         # Remove non-numeric characters
