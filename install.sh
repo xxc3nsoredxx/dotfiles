@@ -23,6 +23,9 @@ RUNDIR=$PWD
 # Currently only looks under home/ since that's the only existing directory
 CONTENTS=($(find home -depth -type f -exec realpath --relative-base=home \{\} \+))
 declare -a NOT_INSTALLED
+# Ensure these variables don't exist (eg, as an env var)
+unset EXTRA_BLANK
+unset FORCE
 
 # Installs the file given as argument 1
 # Uses hardlinks in case programs test for a file and not a symlink
@@ -39,15 +42,63 @@ function install_file {
     popd >/dev/null
 }
 
+# Print the usage string
+# Triggered by '-h' or invalid argument
+function usage {
+    echo "Usage: $0 [args]"
+    echo "Args:"
+    echo "    -f    Force"
+    echo "          Overwrites existing files."
+    echo "    -h    Display this help"
+    exit 1
+}
+
+# Test the commandline arguments
+if [ $# -ge 1 ]; then
+    if [ "$1" == "-f" ]; then
+        echo "WARNING: '-f' given. Will mercilessly overwrite existing files."
+        echo -n "Continuing in: 5"
+        sleep 1
+        echo -n " 4"
+        sleep 1
+        echo -n " 3"
+        sleep 1
+        echo -n " 2"
+        sleep 1
+        echo -n " 1"
+        sleep 1
+        echo " Now!"
+        FORCE=1
+    else
+        usage
+    fi
+fi
+exit
+
 # Find the files which are not installed
-# Notifies if existing files differ from the repo files
+# Notifies if existing files differ from the repo files (unless -f)
 for i in ${CONTENTS[@]}; do
     if [[ ! -a $HOME/$i ]]; then
         NOT_INSTALLED[${#NOT_INSTALLED[@]}]=$i
+    elif [[ ! -z $FORCE ]]; then
+        echo "'$HOME/$i' exists, deleting..."
+        rm -f $HOME/$i
+        NOT_INSTALLED[${#NOT_INSTALLED[@]}]=$i
+        EXTRA_BLANK=1
     elif [[ ! -z $(diff -q $HOME/$i home/$i) ]]; then
-        echo "Contents of \"$HOME/$i\" differ from the repo"
+        echo "Contents of '$HOME/$i' differ from the repo..."
+        EXTRA_BLANK=1
     fi
 done
+if [ ! -z $EXTRA_BLANK ]; then
+    echo ""
+fi
+
+# Check if any files need to be installed
+if [[ ${#NOT_INSTALLED[@]} -eq 0 ]]; then
+    echo "Nothing to install, exiting..."
+    exit
+fi
 
 # Installer menu
 echo "Separate choices by space (' ') to install multiple files at once."
