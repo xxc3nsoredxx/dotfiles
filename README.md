@@ -23,6 +23,9 @@ Emulates how my directories are setup.
     |  |  +- wrapper.py
     |  +- rofi/
     |     +- config
+    +- .vim/
+    |  +- colors/
+    |     +- molokai.vim
     +- github_helper_scripts/
     |  +- c.gitignore
     |  +- git_init.sh
