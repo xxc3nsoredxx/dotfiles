@@ -60,9 +60,8 @@ function gpl_blurb_c {
             return 1
         # Make sure file is C source code
         elif (grep -i 'c source' <(file $1) >/dev/null) ; then
-            # Insert after the first line
-            sed -ie '1a \
-\
+            # Insert before the first line
+            sed -ie '1i \
 /**\
  *  {one line to give the program name and a brief idea of what it does.}\
  *  Copyright (C) {year}  {name of author}\
