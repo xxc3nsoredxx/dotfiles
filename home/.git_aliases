@@ -12,9 +12,6 @@ function git_branch_new {
 
 # Insert a GPL blurb into a bash script
 function gpl_blurb_bash {
-    # Where to insert the blurb
-    local CMD
-
     if [ $# -ne 1 ]; then
         echo "Usage: $FUNCNAME [script name]"
         return 1
@@ -23,13 +20,10 @@ function gpl_blurb_bash {
         if [[ ! -a $1 ]]; then
             echo "Cannot open \"$1\""
             return 1
-        # Make sure file is *.sh
-        elif [[ "$1" != *.sh ]]; then
-            echo "\"$1\" is not a bash script"
-            return 1
-        fi
-        # Insert after the first line
-        sed -ie '1a \
+        # Make sure file is a bash script
+        elif (grep -i 'shell script' <(file $1) >/dev/null) ; then
+            # Insert after the first line
+            sed -ie '1a \
 \
 #   {one line to give the program name and a brief idea of what it does.}\
 #   Copyright (C) {year}  {name of author}\
@@ -47,5 +41,49 @@ function gpl_blurb_bash {
 #   You should have received a copy of the GNU General Public License\
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.\
 ' $1
+        else
+            echo "\"$1\" is not a bash script"
+            return 1
+        fi
+    fi
+}
+
+# Insert a GPL blurb into a C source file
+function gpl_blurb_c {
+    if [ $# -ne 1 ]; then
+        echo "Usage: $FUNCNAME [source file]"
+        return 1
+    else
+        # Make sure file exists
+        if [[ ! -a $1 ]]; then
+            echo "Cannot open \"$1\""
+            return 1
+        # Make sure file is C source code
+        elif (grep -i 'c source' <(file $1) >/dev/null) ; then
+            # Insert after the first line
+            sed -ie '1a \
+\
+/**\
+ *  {one line to give the program name and a brief idea of what it does.}\
+ *  Copyright (C) {year}  {name of author}\
+ *\
+ *  This program is free software: you can redistribute it and/or modify\
+ *  it under the terms of the GNU General Public License as published by\
+ *  the Free Software Foundation, either version 3 of the License, or\
+ *  (at your option) any later version.\
+ *\
+ *  This program is distributed in the hope that it will be useful,\
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of\
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\
+ *  GNU General Public License for more details.\
+ *\
+ *  You should have received a copy of the GNU General Public License\
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.\
+ */\
+' $1
+        else
+            echo "\"$1\" is not C source code"
+            return 1
+        fi
     fi
 }
