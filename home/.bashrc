@@ -19,6 +19,9 @@ if [ $(id -u) -ne 0 ]; then
     export PS1='\[\e[1;34m\][ \w ]\n\[\e[1;32m\]\u@\h \[\e[1;34m\]λ\[\e[0m\] '
 fi
 
+# GPG secure tty
+export GPG_TTY=$(tty)
+
 # Run whenever a command isn't found
 function command_not_found_handle {
     declare -a WHAT
