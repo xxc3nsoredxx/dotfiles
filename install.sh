@@ -37,7 +37,11 @@ function install_file {
         # Create required directories if needed
         mkdir -p $DIR_PART
         cd $DIR_PART
-        ln $RUNDIR/home/$1
+        if [[ ! -z $FORCE ]]; then
+            ln -f $RUNDIR/home/$1
+        else
+            ln $RUNDIR/home/$1
+        fi
     popd >/dev/null
 }
 
@@ -83,8 +87,6 @@ for i in ${CONTENTS[@]}; do
     if [[ ! -a $HOME/$i ]]; then
         NOT_INSTALLED[${#NOT_INSTALLED[@]}]=$i
     elif [[ ! -z $FORCE ]]; then
-        echo "'$HOME/$i' exists, deleting..."
-        rm -f $HOME/$i
         NOT_INSTALLED[${#NOT_INSTALLED[@]}]=$i
         EXTRA_BLANK=1
     elif [[ ! -z $(diff -q $HOME/$i home/$i) ]]; then
