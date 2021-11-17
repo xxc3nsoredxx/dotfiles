@@ -30,6 +30,7 @@ Emulates how my directories are setup.
     |  +- c.gitignore
     |  +- git_init.sh
     |  +- gnu_gpl
+    |  +- gnu_gpl2
     +- .Xresources
     +- .bash_logout
     +- .bash_profile
