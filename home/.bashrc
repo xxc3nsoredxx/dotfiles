@@ -135,6 +135,7 @@ alias dmesg="dmesg -Hx -f kern,user,daemon,syslog"
 alias kdmesg="dmesg -Hx -f kern -l debug,info,notice,warn,err,crit,alert,emerg"
 alias pv="pv -c -F '%r %T %a %t %p %b %e'"
 alias cp="cp --reflink=auto"
+alias capacity="cat /sys/class/power_supply/BAT0/capacity"
 
 alias run_arm="qemu-arm -L /usr/armv6j-hardfloat-linux-gnueabi/"
 alias gdb_arm="armv6j-hardfloat-linux-gnueabi-gdb --nh -ix ~/.gdbinit_arm"
