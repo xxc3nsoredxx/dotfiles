@@ -119,6 +119,9 @@ shopt -s dirspell
 shopt -s extglob
 shopt -s no_empty_cmd_completion
 
+# Start X in active TTY
+alias startx="startx -- vt$(tty | sed -e 's|/dev/tty||')"
+
 alias poweroff="loginctl poweroff"
 alias reboot="loginctl reboot"
 alias lh="ls -alFh"
