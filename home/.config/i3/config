@@ -6,7 +6,7 @@
 
 
 # xrandr to deal with other monitor
-exec --no-startup-id "xrandr --output HDMI1 --auto --left-of eDP1"
+# exec --no-startup-id "xrandr --output HDMI1 --auto --left-of eDP1"
 
 # i3 config file (v4)
 #
@@ -36,9 +36,10 @@ floating_modifier $mod
 # start a terminal
 bindsym $mod+Return exec urxvtc
 # start a root terminal
-bindsym $mod+Shift+Return exec "urxvtc -e sudo -i -u root"
+# bindsym $mod+Shift+Return exec "urxvtc -e sudo -i -u root"
+bindsym $mod+Shift+Return exec "urxvtc -e su --pty -"
 # start a root terminal connected to the system console
-bindsym $mod+c exec "urxvtc -C -e sudo -i -u root"
+# bindsym $mod+c exec "urxvtc -C -e sudo -i -u root"
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -151,7 +152,9 @@ bindsym $mod+r mode "resize"
 bar {
         position top
 
-        status_command i3status | $HOME/.config/i3status/wrapper.py
+        # Don't get audio info because audio not configured
+        # status_command i3status | $HOME/.config/i3status/wrapper.py
+        status_command i3status
         
         colors {
             # class             border  bg      text
@@ -182,10 +185,12 @@ mode "$mode_system" {
     bindsym c reload, mode "default"
     bindsym e exit
     bindsym l exec --no-startup-id physlock -ms, mode "default"
-    bindsym p exec sudo poweroff
+    # bindsym p exec sudo poweroff
+    bindsym p exec su -c poweroff
     bindsym r restart, mode "default"
     bindsym s mode "default", exec scrot -q 100 '%Y%m%d_%H%M%S_$wx$h.png' -e 'mv $f ~/screenshots/'
-    bindsym t exec "urxvtc -e sudo su -c top", mode "default"
+    # bindsym t exec "urxvtc -e sudo su -c top", mode "default"
+    bindsym t exec "urxvtc -title 'top (root)' -e su --pty -c top", mode "default"
 
     bindsym Return mode "default"
     bindsym Escape mode "default"
